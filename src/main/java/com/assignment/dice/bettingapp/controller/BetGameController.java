@@ -22,7 +22,7 @@ public class BetGameController {
     @Autowired
     BetGameService betGameService;
 
-    @PostMapping("bet1")
+    @PostMapping("bet")
     public ResponseEntity<?> bet(@Valid @RequestBody BetGame betGame, Errors errors) {
 
         if (errors.hasErrors()) {
