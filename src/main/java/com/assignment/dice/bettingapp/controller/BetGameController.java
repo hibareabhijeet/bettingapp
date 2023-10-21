@@ -1,5 +1,6 @@
 package com.assignment.dice.bettingapp.controller;
 
+import com.assignment.dice.bettingapp.common.SystemException;
 import com.assignment.dice.bettingapp.model.BetGame;
 import com.assignment.dice.bettingapp.service.BetGameService;
 import javax.validation.Valid;
@@ -29,10 +30,10 @@ public class BetGameController {
     try {
       response = betGameService.newBet(betGame);
 
-    } catch (Exception ex) {
+    } catch (SystemException ex) {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
 
-    return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    return ResponseEntity.status(HttpStatus.OK).body(response);
   }
 }

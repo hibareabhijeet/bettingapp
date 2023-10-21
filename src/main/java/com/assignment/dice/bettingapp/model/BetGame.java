@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 public class BetGame {
-  @NotEmpty(message = "username must not be empty")
+  @NotEmpty(message = "Username must not be empty")
   @NotNull(message = "username must not be null")
   private String username;
 

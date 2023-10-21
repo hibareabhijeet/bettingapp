@@ -3,6 +3,7 @@ package com.assignment.dice.bettingapp.controller;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -84,7 +85,7 @@ class UserControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isBadRequest())
-        .andExpect(content().string("username must not be empty"));
+        .andExpect(content().string("Username must not be empty"));
   }
 
   @Test
@@ -121,6 +122,15 @@ class UserControllerTest {
     this.mockMvc
         .perform(MockMvcRequestBuilders.delete("/user/"))
         .andExpect(status().isMethodNotAllowed());
+  }
+
+  @Test
+  void deleteUserNotExists() throws Exception {
+    doThrow(new SystemException("User does not exist")).when(userService).removeUser(anyString());
+    this.mockMvc
+        .perform(MockMvcRequestBuilders.delete("/user/abhi123"))
+        .andExpect(status().isNotFound())
+        .andExpect(content().string("User does not exist"));
   }
 
   //    @Test

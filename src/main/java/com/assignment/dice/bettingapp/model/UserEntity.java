@@ -27,7 +27,7 @@ public class UserEntity {
   private Integer id;
 
   @Column(unique = true)
-  @NotEmpty(message = "username must not be empty")
+  @NotEmpty(message = "Username must not be empty")
   @NotNull(message = "username must not be null")
   private String username;
 
