@@ -24,7 +24,7 @@ public class UserEntity {
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id_generator")
   @SequenceGenerator(name = "id_generator", sequenceName = "user_id_seq", allocationSize = 1)
   @JsonIgnore
-  private int id;
+  private Integer id;
 
   @Column(unique = true)
   @NotEmpty(message = "username must not be empty")

@@ -39,8 +39,4 @@ public class BetGameController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @RequestMapping
-    public String helloWorld(){
-        return "Hello game";
-    }
 }

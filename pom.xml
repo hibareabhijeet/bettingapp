@@ -59,20 +59,9 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-				<configuration>
-					<excludes>
-						<exclude>
-							<groupId>org.projectlombok</groupId>
-							<artifactId>lombok</artifactId>
-						</exclude>
-					</excludes>
-				</configuration>
-			</plugin>
-			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>${jacoco.version}</version>
 				<executions>
 					<execution>
 						<goals>
@@ -87,16 +76,12 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.jacoco</groupId>
-				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>${jacoco.version}</version>
 				<configuration>
 					<excludes>
 						<exclude>com/assignment/dice/bettingapp/common/*</exclude>
 						<exclude>com/assignment/dice/bettingapp/model/*</exclude>
 						<exclude>com/assignment/dice/bettingapp/repo/*</exclude>
+						<exclude>com/assignment/dice/bettingapp/BettingappApplication.java</exclude>
 					</excludes>
 				</configuration>
 			</plugin>

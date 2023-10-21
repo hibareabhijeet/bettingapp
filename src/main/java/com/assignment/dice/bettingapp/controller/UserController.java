@@ -1,6 +1,6 @@
 package com.assignment.dice.bettingapp.controller;
 
-import com.assignment.dice.bettingapp.model.Topup;
+import com.assignment.dice.bettingapp.common.SystemException;
 import com.assignment.dice.bettingapp.model.UserEntity;
 import com.assignment.dice.bettingapp.service.UserService;
 import org.slf4j.Logger;
@@ -41,7 +41,7 @@ public class UserController {
       }
     try {
       userService.addUser(user);
-    } catch (Exception e) {
+    } catch (SystemException e) {
       return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
     }
       logger.info("User created successfully");
@@ -52,25 +52,10 @@ public class UserController {
   public ResponseEntity<?> deleteUser(@Valid @NotNull @NotEmpty @PathVariable String username) {
     try {
       userService.removeUser(username);
-    } catch (Exception e) {
+    } catch (SystemException e) {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
     }
       logger.info(String.format("User :%s removed.",username));
     return ResponseEntity.status(HttpStatus.OK).body(String.format("User :%s removed.",username));
   }
-/*
-    @PutMapping("topup")
-    public ResponseEntity<?> topupAmount(@Valid @RequestBody Topup topup, Errors errors) {
-        if (errors.hasErrors()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors.getFieldError().getDefaultMessage());
-        }
-        final UserEntity response;
-        try {
-            response = userService.topupAmount(topup);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
-        }
-        logger.info("Top-up Amount added successfully! Total Balance="+response.getBalance());
-        return ResponseEntity.status(HttpStatus.OK).body("Top-up Amount added successfully! Total Balance="+response.getBalance());
-    }*/
 }

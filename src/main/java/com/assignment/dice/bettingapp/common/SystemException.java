@@ -14,13 +14,4 @@ public class SystemException extends RuntimeException {
     super(errorMessage);
   }
 
-  /**
-   * constructor
-   *
-   * @param errorMessage
-   * @param err
-   */
-  public SystemException(String errorMessage, Throwable err) {
-    super(errorMessage, err);
-  }
 }
