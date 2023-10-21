@@ -14,19 +14,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.event.annotation.BeforeTestClass;
 import org.springframework.test.util.ReflectionTestUtils;
 
 @ExtendWith(MockitoExtension.class)
-@TestPropertySource(properties = {"bet.amount.min=1", "bet.amount.max=12"})
 class BetGameServiceTest {
-
-  @BeforeTestClass
-  public static void beforeClass() {
-    System.setProperty("BET_MIN", "1");
-    System.setProperty("BET_MAX", "12");
-  }
 
   @Mock UserRepository userRepository;
   @Mock UserService userService;

@@ -6,13 +6,14 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import lombok.*;
 
+/** Entity class for User and used for handling request and responses */
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(
-    name = "user_table",
+    name = "user_details",
     uniqueConstraints = {
       @UniqueConstraint(
           name = "username_unique",

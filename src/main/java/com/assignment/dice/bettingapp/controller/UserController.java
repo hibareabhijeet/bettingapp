@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
+/** Handles User CRUD operations */
 @RestController
 @RequestMapping("user")
 public class UserController {
@@ -21,6 +22,10 @@ public class UserController {
 
   @Autowired UserService userService;
 
+  /**
+   * @param username unique identifier for user
+   * @return user details
+   */
   @GetMapping("/{username}")
   public ResponseEntity<?> getUser(@Valid @NotNull @NotEmpty @PathVariable String username) {
 
@@ -33,6 +38,11 @@ public class UserController {
     return ResponseEntity.status(HttpStatus.OK).body(response);
   }
 
+  /**
+   * @param user details
+   * @param errors request validation errors
+   * @return response message
+   */
   @PostMapping
   public ResponseEntity<?> addUser(@Valid @RequestBody UserEntity user, Errors errors) {
     if (errors.hasErrors()) {
@@ -48,6 +58,10 @@ public class UserController {
     return ResponseEntity.status(HttpStatus.CREATED).body("User created successfully");
   }
 
+  /**
+   * @param username unique identifier for user
+   * @return response message
+   */
   @DeleteMapping("/{username}")
   public ResponseEntity<?> deleteUser(@Valid @NotNull @NotEmpty @PathVariable String username) {
     try {

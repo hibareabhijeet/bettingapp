@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+/** Betting game service layer */
 @Service
 public class BetGameService {
 
@@ -19,7 +20,11 @@ public class BetGameService {
   @Value("${bet.amount.max}")
   private int amountMaxLimit;
 
-  private UserEntity validateBet(BetGame betGame) {
+  /**
+   * @param betGame validate the request for betting
+   * @return valid user object
+   */
+  private UserEntity validateBet(BetGame betGame) throws SystemException {
     if (betGame.getAmount() < 1
         || (betGame.getAmount() < amountMinLimit || betGame.getAmount() > amountMaxLimit)) {
       throw new SystemException(
@@ -35,6 +40,11 @@ public class BetGameService {
     return user;
   }
 
+  /**
+   * @param betGame add bet
+   * @return response message
+   * @throws SystemException error
+   */
   public String newBet(BetGame betGame) throws SystemException {
     UserEntity user = validateBet(betGame);
     String response = "Invalid Bet";

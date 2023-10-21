@@ -3,6 +3,7 @@ package com.assignment.dice.bettingapp.model;
 import javax.validation.constraints.*;
 import lombok.Data;
 
+/** Request Object fot betting controller */
 @Data
 public class BetGame {
   @NotEmpty(message = "Username must not be empty")

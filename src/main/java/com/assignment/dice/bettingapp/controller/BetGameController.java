@@ -13,12 +13,18 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/** Handle REST API calls for betting */
 @RestController
 @RequestMapping("game")
 public class BetGameController {
 
   @Autowired BetGameService betGameService;
 
+  /**
+   * @param betGame Valid betGame Oject with username, amount and betting Number
+   * @param errors request validation errors
+   * @return response with message
+   */
   @PostMapping("bet")
   public ResponseEntity<?> bet(@Valid @RequestBody BetGame betGame, Errors errors) {
 
