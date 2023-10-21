@@ -31,20 +31,22 @@ public class UserService {
   }
 
   public UserEntity getUserByUsername(String username) throws SystemException {
-    return userRepository.findByUsername(username).orElseThrow(() -> new SystemException("User does not exist"));
+    return userRepository
+        .findByUsername(username)
+        .orElseThrow(() -> new SystemException("User does not exist"));
   }
 
   public UserEntity updateUser(UserEntity entity) throws SystemException {
     return userRepository.save(entity);
   }
 
-//  public UserEntity topupAmount(Topup topup) throws SystemException {
-//    UserEntity user = getUserByUsername(topup.getUsername());;
-//    if (user == null) {
-//      throw new SystemException("User does not exist");
-//    }
-//    user.setBalance(user.getBalance()+topup.getAmount());
-//    updateUser(user);
-//    return user;
-//  }
+  //  public UserEntity topupAmount(Topup topup) throws SystemException {
+  //    UserEntity user = getUserByUsername(topup.getUsername());;
+  //    if (user == null) {
+  //      throw new SystemException("User does not exist");
+  //    }
+  //    user.setBalance(user.getBalance()+topup.getAmount());
+  //    updateUser(user);
+  //    return user;
+  //  }
 }

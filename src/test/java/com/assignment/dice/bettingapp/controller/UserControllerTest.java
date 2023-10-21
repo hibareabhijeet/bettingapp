@@ -1,5 +1,11 @@
 package com.assignment.dice.bettingapp.controller;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.assignment.dice.bettingapp.common.SystemException;
 import com.assignment.dice.bettingapp.model.UserEntity;
@@ -10,124 +16,135 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(UserController.class)
 class UserControllerTest {
-    ObjectMapper mapper = new ObjectMapper();
+  ObjectMapper mapper = new ObjectMapper();
 
-    @Autowired
-    MockMvc mockMvc;
+  @Autowired MockMvc mockMvc;
 
-    @MockBean
-    private UserService userService;
+  @MockBean private UserService userService;
 
-    @Test
-    void getUser()  throws Exception {
-        UserEntity response= UserEntity.builder().username("abhi").first_name("Abhijit").last_name("Hibare").build();
-        when(userService.getUserByUsername(anyString())).thenReturn(response);
-        MvcResult result = this.mockMvc.perform(MockMvcRequestBuilders
-                        .get("/user/abhi")
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andReturn();
+  @Test
+  void getUser() throws Exception {
+    UserEntity response =
+        UserEntity.builder().username("abhi").first_name("Abhijit").last_name("Hibare").build();
+    when(userService.getUserByUsername(anyString())).thenReturn(response);
+    MvcResult result =
+        this.mockMvc
+            .perform(MockMvcRequestBuilders.get("/user/abhi").accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk())
+            .andReturn();
 
-        assertEquals(result.getResponse().getContentAsString(),mapper.writeValueAsString(response));
-    }
+    assertEquals(result.getResponse().getContentAsString(), mapper.writeValueAsString(response));
+  }
 
-    @Test
-    void getUserInvalidUser()  throws Exception {
-        when(userService.getUserByUsername(anyString())).thenReturn(null);
-        this.mockMvc.perform(MockMvcRequestBuilders
-                        .get("/user/abhi")
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNotFound())
-                .andExpect(content().string("User :abhi Not found."));
-    }
+  @Test
+  void getUserInvalidUser() throws Exception {
+    when(userService.getUserByUsername(anyString())).thenReturn(null);
+    this.mockMvc
+        .perform(MockMvcRequestBuilders.get("/user/abhi").accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isNotFound())
+        .andExpect(content().string("User :abhi Not found."));
+  }
 
-    @Test
-    void addUser() throws Exception {
-        UserEntity user= UserEntity.builder().username("abhi").first_name("Abhijit").last_name("Hibare").build();
-        UserEntity response= UserEntity.builder().username("abhi").first_name("Abhijit").last_name("Hibare").build();
-        when(userService.addUser(any(UserEntity.class))).thenReturn(response);
-        this.mockMvc.perform(MockMvcRequestBuilders
-                        .post("/user/")
-                        .content(mapper.writeValueAsString(user)).contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isCreated());
-    }
+  @Test
+  void addUser() throws Exception {
+    UserEntity user =
+        UserEntity.builder().username("abhi").first_name("Abhijit").last_name("Hibare").build();
+    UserEntity response =
+        UserEntity.builder().username("abhi").first_name("Abhijit").last_name("Hibare").build();
+    when(userService.addUser(any(UserEntity.class))).thenReturn(response);
+    this.mockMvc
+        .perform(
+            MockMvcRequestBuilders.post("/user/")
+                .content(mapper.writeValueAsString(user))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isCreated());
+  }
 
-    @Test
-    void addUserEmptyUserName() throws Exception {
-        UserEntity user= UserEntity.builder().username("").first_name("Abhijit").last_name("Hibare").build();
-        UserEntity response= UserEntity.builder().username("abhi").first_name("Abhijit").last_name("Hibare").build();
-        when(userService.addUser(any(UserEntity.class))).thenReturn(response);
-        this.mockMvc.perform(MockMvcRequestBuilders
-                        .post("/user/")
-                        .content(mapper.writeValueAsString(user)).contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isBadRequest())
-                .andExpect(content().string("username must not be empty"));
-    }
+  @Test
+  void addUserEmptyUserName() throws Exception {
+    UserEntity user =
+        UserEntity.builder().username("").first_name("Abhijit").last_name("Hibare").build();
+    UserEntity response =
+        UserEntity.builder().username("abhi").first_name("Abhijit").last_name("Hibare").build();
+    when(userService.addUser(any(UserEntity.class))).thenReturn(response);
+    this.mockMvc
+        .perform(
+            MockMvcRequestBuilders.post("/user/")
+                .content(mapper.writeValueAsString(user))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isBadRequest())
+        .andExpect(content().string("username must not be empty"));
+  }
 
-    @Test
-    void addUserDuplicateUserName() throws Exception {
-        UserEntity user= UserEntity.builder().username("abhi").first_name("Abhijit").last_name("Hibare").build();
-        UserEntity response= UserEntity.builder().username("abhi").first_name("Abhijit").last_name("Hibare").build();
-        when(userService.addUser(any(UserEntity.class))).thenThrow(new SystemException("Username must be unique"));
-        this.mockMvc.perform(MockMvcRequestBuilders
-                        .post("/user/")
-                        .content(mapper.writeValueAsString(user)).contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isConflict())
-                .andExpect(content().string("Username must be unique"));
-    }
+  @Test
+  void addUserDuplicateUserName() throws Exception {
+    UserEntity user =
+        UserEntity.builder().username("abhi").first_name("Abhijit").last_name("Hibare").build();
+    UserEntity response =
+        UserEntity.builder().username("abhi").first_name("Abhijit").last_name("Hibare").build();
+    when(userService.addUser(any(UserEntity.class)))
+        .thenThrow(new SystemException("Username must be unique"));
+    this.mockMvc
+        .perform(
+            MockMvcRequestBuilders.post("/user/")
+                .content(mapper.writeValueAsString(user))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isConflict())
+        .andExpect(content().string("Username must be unique"));
+  }
 
-    @Test
-    void deleteUser() throws Exception {
-        UserEntity response= UserEntity.builder().username("abhi").first_name("Abhijit").last_name("Hibare").build();
-        when(userService.getUserByUsername(anyString())).thenReturn(response);
-        this.mockMvc.perform(MockMvcRequestBuilders
-                        .delete("/user/abhi"))
-                .andExpect(status().isOk())
-                .andExpect(content().string("User :abhi removed."));
-    }
+  @Test
+  void deleteUser() throws Exception {
+    UserEntity response =
+        UserEntity.builder().username("abhi").first_name("Abhijit").last_name("Hibare").build();
+    when(userService.getUserByUsername(anyString())).thenReturn(response);
+    this.mockMvc
+        .perform(MockMvcRequestBuilders.delete("/user/abhi"))
+        .andExpect(status().isOk())
+        .andExpect(content().string("User :abhi removed."));
+  }
 
-    @Test
-    void deleteUserNegative() throws Exception {
-        this.mockMvc.perform(MockMvcRequestBuilders
-                        .delete("/user/"))
-                .andExpect(status().isMethodNotAllowed());
-    }
+  @Test
+  void deleteUserNegative() throws Exception {
+    this.mockMvc
+        .perform(MockMvcRequestBuilders.delete("/user/"))
+        .andExpect(status().isMethodNotAllowed());
+  }
 
-//    @Test
-//    void deleteUserError() throws Exception {
-//        UserEntity response= UserEntity.builder().username("abhi").first_name("Abhijit").last_name("Hibare").build();
-//        when(userService.getUserByUsername(anyString())).thenReturn(null);
-//        this.mockMvc.perform(MockMvcRequestBuilders
-//                        .delete("/user/abhi"))
-//                .andExpect(status().isBadRequest())
-//                .andExpect(content().string("User :abhi removed."));
-//    }
+  //    @Test
+  //    void deleteUserError() throws Exception {
+  //        UserEntity response=
+  // UserEntity.builder().username("abhi").first_name("Abhijit").last_name("Hibare").build();
+  //        when(userService.getUserByUsername(anyString())).thenReturn(null);
+  //        this.mockMvc.perform(MockMvcRequestBuilders
+  //                        .delete("/user/abhi"))
+  //                .andExpect(status().isBadRequest())
+  //                .andExpect(content().string("User :abhi removed."));
+  //    }
 
-//    @Test
-//    void topupAmount() throws Exception {
-//        UserEntity user= UserEntity.builder().username("abhi").first_name("Abhijit").last_name("Hibare").build();
-//        UserEntity response= UserEntity.builder().username("abhi").first_name("Abhijit").last_name("Hibare").build();
-//        when(userService.addUser(any(UserEntity.class))).thenReturn(response);
-//        this.mockMvc.perform(MockMvcRequestBuilders
-//                        .put("/user/topup")
-//                        .content(mapper.writeValueAsString(user)).contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
-//                .andExpect(status().isOk());
-//    }
+  //    @Test
+  //    void topupAmount() throws Exception {
+  //        UserEntity user=
+  // UserEntity.builder().username("abhi").first_name("Abhijit").last_name("Hibare").build();
+  //        UserEntity response=
+  // UserEntity.builder().username("abhi").first_name("Abhijit").last_name("Hibare").build();
+  //        when(userService.addUser(any(UserEntity.class))).thenReturn(response);
+  //        this.mockMvc.perform(MockMvcRequestBuilders
+  //                        .put("/user/topup")
+  //
+  // .content(mapper.writeValueAsString(user)).contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+  //                .andExpect(status().isOk());
+  //    }
 }
