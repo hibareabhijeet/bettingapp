@@ -38,7 +38,7 @@ public class BetGameService {
   public String newBet(BetGame betGame) throws SystemException {
     UserEntity user = validateBet(betGame);
     String response = "Invalid Bet";
-    int randomNum = getBetWinningNumber();
+    int randomNum = ThreadLocalRandom.current().nextInt(1, 7);
     if (randomNum == betGame.getBetNumber()) {
       user.setBalance(user.getBalance() + betGame.getAmount());
       response = "Congo, You win the bet";
@@ -46,12 +46,7 @@ public class BetGameService {
       user.setBalance(user.getBalance() - betGame.getAmount());
       response = String.format("Winning Number is : %s, Better luck next time!", randomNum);
     }
-    System.out.println("randomNum: " + randomNum + "    response: " + response);
     userService.updateUser(user);
     return response;
-  }
-
-  public int getBetWinningNumber() {
-    return ThreadLocalRandom.current().nextInt(1, 7);
   }
 }

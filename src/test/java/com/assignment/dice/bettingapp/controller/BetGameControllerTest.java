@@ -20,20 +20,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(BetGameController.class)
-@TestPropertySource(properties = {"bet.amount.min=1", "bet.amount.max=12"})
 class BetGameControllerTest {
-
-  static {
-    System.setProperty("BET_MIN", "1");
-    System.setProperty("BET_MAX", "12");
-  }
 
   BetGame bet;
   ObjectMapper mapper = new ObjectMapper();
@@ -53,10 +46,6 @@ class BetGameControllerTest {
 
   @Test
   void betUserNotFound() throws Exception {
-    // when(betGameService.getBetWinningNumber()).thenReturn(5);
-    //    System.getenv().put("BET_MIN", "1");
-    //    System.getenv().put("BET_MAX", "12");
-    //    when(userService.getUserByUsername(anyString())).thenThrow(new SystemException("asd"));
     bet.setAmount(-2);
     this.mockMvc
         .perform(
