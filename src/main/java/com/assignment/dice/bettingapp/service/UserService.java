@@ -48,7 +48,7 @@ public class UserService {
   public UserEntity getUserByUsername(String username) throws SystemException {
     return userRepository
         .findByUsername(username)
-        .orElseThrow(() -> new SystemException("User does not exist"));
+        .orElse(null);
   }
 
   /**

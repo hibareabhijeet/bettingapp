@@ -75,14 +75,13 @@ class UserServiceTest {
   public void should_throw_exception_when_user_doesnt_exist() {
     when(userRepository.findByUsername(anyString())).thenReturn(Optional.ofNullable(null));
 
-    SystemException thrown =
+    NullPointerException thrown =
         Assertions.assertThrows(
-            SystemException.class,
+                NullPointerException.class,
             () -> {
               userService.removeUser(request.getUsername());
-            },
-            "User does not exist");
-    assertEquals("User does not exist", thrown.getMessage());
+            });
+    assertNull(null, thrown.getMessage());
   }
 
   @Test

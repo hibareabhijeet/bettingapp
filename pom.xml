@@ -85,7 +85,14 @@
 					</excludes>
 				</configuration>
 			</plugin>
-
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<mainClass>com.assignment.dice.bettingapp.BettingappApplication</mainClass>
+					<layout>JAR</layout>
+				</configuration>
+			</plugin>
 		</plugins>
 
 	</build>
