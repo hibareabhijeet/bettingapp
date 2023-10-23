@@ -1,7 +1,7 @@
 version: "3.3"
 services:
   api:
-    container_name: my-api
+    container_name: betting-api
     env_file:
       - .env
     build: .
@@ -11,7 +11,7 @@ services:
       - postgres
   postgres:
     image: "postgres:${POSTGRES_VERSION}"
-    container_name: bettingdb
+    container_name: bettingdb_con
     ports:
       - "5432:5432"
     volumes:
@@ -29,8 +29,8 @@ services:
     ports:
       - "5050:80"
     environment:
-      PGADMIN_DEFAULT_EMAIL: admin@admin.com
-      PGADMIN_DEFAULT_PASSWORD: root
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
     restart: unless-stopped
 volumes:
   postgres-data:
