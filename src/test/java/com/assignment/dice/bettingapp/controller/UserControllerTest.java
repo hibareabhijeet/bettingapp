@@ -39,7 +39,8 @@ class UserControllerTest {
     when(userService.getUserByUsername(anyString())).thenReturn(response);
     MvcResult result =
         this.mockMvc
-            .perform(MockMvcRequestBuilders.get("/user/abhi").accept(MediaType.APPLICATION_JSON))
+            .perform(
+                MockMvcRequestBuilders.get("/api/user/abhi").accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
             .andReturn();
 
@@ -50,7 +51,7 @@ class UserControllerTest {
   void getUserInvalidUser() throws Exception {
     when(userService.getUserByUsername(anyString())).thenReturn(null);
     this.mockMvc
-        .perform(MockMvcRequestBuilders.get("/user/abhi").accept(MediaType.APPLICATION_JSON))
+        .perform(MockMvcRequestBuilders.get("/api/user/abhi").accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isNotFound())
         .andExpect(content().string("User :abhi Not found."));
   }
@@ -64,7 +65,7 @@ class UserControllerTest {
     when(userService.addUser(any(UserEntity.class))).thenReturn(response);
     this.mockMvc
         .perform(
-            MockMvcRequestBuilders.post("/user/")
+            MockMvcRequestBuilders.post("/api/user/")
                 .content(mapper.writeValueAsString(user))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
@@ -80,7 +81,7 @@ class UserControllerTest {
     when(userService.addUser(any(UserEntity.class))).thenReturn(response);
     this.mockMvc
         .perform(
-            MockMvcRequestBuilders.post("/user/")
+            MockMvcRequestBuilders.post("/api/user/")
                 .content(mapper.writeValueAsString(user))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
@@ -98,7 +99,7 @@ class UserControllerTest {
         .thenThrow(new SystemException("Username must be unique"));
     this.mockMvc
         .perform(
-            MockMvcRequestBuilders.post("/user/")
+            MockMvcRequestBuilders.post("/api/user/")
                 .content(mapper.writeValueAsString(user))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
@@ -112,15 +113,15 @@ class UserControllerTest {
         UserEntity.builder().username("abhi").first_name("Abhijit").last_name("Hibare").build();
     when(userService.getUserByUsername(anyString())).thenReturn(response);
     this.mockMvc
-        .perform(MockMvcRequestBuilders.delete("/user/abhi"))
-        .andExpect(status().isOk())
+        .perform(MockMvcRequestBuilders.delete("/api/user/abhi"))
+        .andExpect(status().isNoContent())
         .andExpect(content().string("User :abhi removed."));
   }
 
   @Test
   void deleteUserNegative() throws Exception {
     this.mockMvc
-        .perform(MockMvcRequestBuilders.delete("/user/"))
+        .perform(MockMvcRequestBuilders.delete("/api/user/"))
         .andExpect(status().isMethodNotAllowed());
   }
 
@@ -128,33 +129,8 @@ class UserControllerTest {
   void deleteUserNotExists() throws Exception {
     doThrow(new SystemException("User does not exist")).when(userService).removeUser(anyString());
     this.mockMvc
-        .perform(MockMvcRequestBuilders.delete("/user/abhi123"))
+        .perform(MockMvcRequestBuilders.delete("/api/user/abhi123"))
         .andExpect(status().isNotFound())
         .andExpect(content().string("User does not exist"));
   }
-
-  //    @Test
-  //    void deleteUserError() throws Exception {
-  //        UserEntity response=
-  // UserEntity.builder().username("abhi").first_name("Abhijit").last_name("Hibare").build();
-  //        when(userService.getUserByUsername(anyString())).thenReturn(null);
-  //        this.mockMvc.perform(MockMvcRequestBuilders
-  //                        .delete("/user/abhi"))
-  //                .andExpect(status().isBadRequest())
-  //                .andExpect(content().string("User :abhi removed."));
-  //    }
-
-  //    @Test
-  //    void topupAmount() throws Exception {
-  //        UserEntity user=
-  // UserEntity.builder().username("abhi").first_name("Abhijit").last_name("Hibare").build();
-  //        UserEntity response=
-  // UserEntity.builder().username("abhi").first_name("Abhijit").last_name("Hibare").build();
-  //        when(userService.addUser(any(UserEntity.class))).thenReturn(response);
-  //        this.mockMvc.perform(MockMvcRequestBuilders
-  //                        .put("/user/topup")
-  //
-  // .content(mapper.writeValueAsString(user)).contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
-  //                .andExpect(status().isOk());
-  //    }
 }

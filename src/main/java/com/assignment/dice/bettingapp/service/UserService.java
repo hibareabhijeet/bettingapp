@@ -6,6 +6,7 @@ import com.assignment.dice.bettingapp.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import org.webjars.NotFoundException;
 
 /** User service layer */
 @Service
@@ -37,6 +38,9 @@ public class UserService {
    */
   public void removeUser(String username) throws SystemException {
     UserEntity user = getUserByUsername(username);
+    if (user == null) {
+      throw new NotFoundException("User not found");
+    }
     userRepository.deleteById(user.getId());
   }
 
@@ -46,9 +50,7 @@ public class UserService {
    * @throws SystemException error
    */
   public UserEntity getUserByUsername(String username) throws SystemException {
-    return userRepository
-        .findByUsername(username)
-        .orElse(null);
+    return userRepository.findByUsername(username).orElse(null);
   }
 
   /**

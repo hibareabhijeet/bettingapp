@@ -15,6 +15,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.util.ReflectionTestUtils;
+import org.webjars.NotFoundException;
 
 @ExtendWith(MockitoExtension.class)
 class BetGameServiceTest {
@@ -58,9 +59,9 @@ class BetGameServiceTest {
   @Test
   void newBetUserNotExist() {
     when(userService.getUserByUsername(user.getUsername())).thenReturn(null);
-    SystemException thrown =
+    NotFoundException thrown =
         Assertions.assertThrows(
-            SystemException.class,
+            NotFoundException.class,
             () -> {
               betGameService.newBet(bet);
             });
@@ -81,7 +82,7 @@ class BetGameServiceTest {
   }
 
   @Test
-  void newBetWin() {
+  void newBetWin() throws Exception {
     when(userService.getUserByUsername(user.getUsername())).thenReturn(user);
     String response = betGameService.newBet(bet);
     if (!response.contains("Better luck next time")) {

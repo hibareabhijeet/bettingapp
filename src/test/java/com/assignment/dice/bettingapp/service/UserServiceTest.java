@@ -16,6 +16,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.webjars.NotFoundException;
 
 @ExtendWith(MockitoExtension.class)
 class UserServiceTest {
@@ -75,13 +76,13 @@ class UserServiceTest {
   public void should_throw_exception_when_user_doesnt_exist() {
     when(userRepository.findByUsername(anyString())).thenReturn(Optional.ofNullable(null));
 
-    NullPointerException thrown =
+    NotFoundException thrown =
         Assertions.assertThrows(
-                NullPointerException.class,
+            NotFoundException.class,
             () -> {
               userService.removeUser(request.getUsername());
             });
-    assertNull(null, thrown.getMessage());
+    assertEquals("User not found", thrown.getMessage());
   }
 
   @Test

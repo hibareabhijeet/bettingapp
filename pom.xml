@@ -16,6 +16,9 @@
 	<properties>
 		<java.version>11</java.version>
 		<jacoco.version>0.8.8</jacoco.version>
+		<springdoc-openapi.version>1.6.12</springdoc-openapi.version>
+		<modelmapper.version>3.1.0</modelmapper.version>
+
 	</properties>
 	<dependencies>
 		<dependency>
@@ -53,7 +56,18 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-ui</artifactId>
+			<version>${springdoc-openapi.version}</version>
+		</dependency>
 
+		<!-- common -->
+		<dependency>
+			<groupId>org.modelmapper</groupId>
+			<artifactId>modelmapper</artifactId>
+			<version>${modelmapper.version}</version>
+		</dependency>
 	</dependencies>
 
 	<build>

@@ -49,7 +49,7 @@ class BetGameControllerTest {
     bet.setAmount(-2);
     this.mockMvc
         .perform(
-            MockMvcRequestBuilders.post("/game/bet")
+            MockMvcRequestBuilders.post("/api/game/bet")
                 .content(mapper.writeValueAsString(bet))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
@@ -64,7 +64,7 @@ class BetGameControllerTest {
     when(userService.getUserByUsername(anyString())).thenReturn(response);
     this.mockMvc
         .perform(
-            MockMvcRequestBuilders.post("/game/bet")
+            MockMvcRequestBuilders.post("/api/game/bet")
                 .content(mapper.writeValueAsString(bet))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
@@ -82,7 +82,7 @@ class BetGameControllerTest {
         .newBet(any(BetGame.class));
     this.mockMvc
         .perform(
-            MockMvcRequestBuilders.post("/game/bet")
+            MockMvcRequestBuilders.post("/api/game/bet")
                 .content(mapper.writeValueAsString(bet))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
@@ -96,7 +96,7 @@ class BetGameControllerTest {
 
     this.mockMvc
         .perform(
-            MockMvcRequestBuilders.post("/game/bet")
+            MockMvcRequestBuilders.post("/api/game/bet")
                 .content(mapper.writeValueAsString(bet))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
