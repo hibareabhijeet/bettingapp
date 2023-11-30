@@ -1,5 +1,5 @@
 # betting-app assignment
-### by Kindred assignment
+
 #### Tech: Spring Boot, Open API 3, postgres, Flyway 
 
 ## Maven
